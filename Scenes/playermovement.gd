@@ -3,7 +3,7 @@ extends CharacterBody3D
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
-@onready var Camerasens = 0.007
+@onready var CameraSens = 0.007
 
 @onready var Neck := $Neck
 @onready var Camera := $Neck/Camera3D
@@ -15,8 +15,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		if event is InputEventMouseMotion:
-			Neck.rotate_y(-event.relative.x * Camerasens)
-			Camera.rotate_x(-event.relative.y * Camerasens)
+			Neck.rotate_y(-event.relative.x * CameraSens)
+			Camera.rotate_x(-event.relative.y * CameraSens)
 			Camera.rotation.x = clamp(Camera.rotation.x, deg_to_rad(-80), deg_to_rad(90))
 
 func _physics_process(delta: float) -> void:
