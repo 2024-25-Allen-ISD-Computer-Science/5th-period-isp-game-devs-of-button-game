@@ -1,0 +1,178 @@
+[gd_scene load_steps=21 format=3 uid="uid://oxt4ouphnofp"]
+
+[ext_resource type="Script" path="res://Scenes/gamebutton.gd" id="1_dgunk"]
+[ext_resource type="Script" path="res://Scenes/button.gd" id="1_v4pxh"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_k4j4g"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j2wvy"]
+albedo_color = Color(0.0584206, 0.0584206, 0.0584206, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ki0pk"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_3ttll"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jhnto"]
+albedo_color = Color(4.62055e-06, 0.568277, 0.568657, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_50xgk"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_d6hia"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kgvoa"]
+albedo_color = Color(0.938499, 0.000590588, 0.0973481, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mpddn"]
+size = Vector3(0.579346, 1, 2.58203)
+
+[sub_resource type="Animation" id="Animation_kyooh"]
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Button:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.213631, 1.67371, -0.0191744), Vector3(0.100143, 1.60661, -0.0191745)]
+}
+
+[sub_resource type="Animation" id="Animation_e2v8p"]
+resource_name = "pressdown"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Button:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.213631, 1.67371, -0.0191744), Vector3(0.0839749, 1.62078, -0.0191744)]
+}
+
+[sub_resource type="Animation" id="Animation_qd7by"]
+resource_name = "pressup"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Button:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.100143, 1.60661, -0.0191745), Vector3(0.213631, 1.67371, -0.0191744)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1p3pl"]
+_data = {
+"RESET": SubResource("Animation_kyooh"),
+"pressdown": SubResource("Animation_e2v8p"),
+"pressup": SubResource("Animation_qd7by")
+}
+
+[sub_resource type="TextMesh" id="TextMesh_02jpg"]
+text = "Press this button"
+font_size = 19
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ushx5"]
+albedo_color = Color(0.85098, 0.054902, 0.129412, 1)
+emission_enabled = true
+emission = Color(0.997205, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_rlyqh"]
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.0623641, 2.70054, -0.120823), Vector3(-0.0407662, 2.36909, -0.0868352), Vector3(0.0623641, 2.70054, -0.120823), Vector3(-0.0407662, 2.36909, -0.0868352), Vector3(0.0623641, 2.70054, -0.120823)]
+}
+
+[sub_resource type="Animation" id="Animation_wcjs7"]
+resource_name = "animatetext"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.0623641, 2.70054, -0.120823), Vector3(0.0623641, 2.59585, -0.120823), Vector3(0.0623641, 2.65029, -0.120823), Vector3(0.0623641, 2.65029, -0.120823), Vector3(0.0623641, 2.70054, -0.120823)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ipava"]
+_data = {
+"RESET": SubResource("Animation_rlyqh"),
+"animatetext": SubResource("Animation_wcjs7")
+}
+
+[node name="Gamebutton" type="StaticBody3D"]
+script = ExtResource("1_dgunk")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.00528289, 0.0383791, 0.435557, 0.0107056, 0.0335644, -0.497918, -0.654341, 0.000859006, -0.00462989, 0.28667, 1.75796, -0.0239584)
+mesh = SubResource("CylinderMesh_k4j4g")
+skeleton = NodePath("../Text")
+surface_material_override/0 = SubResource("StandardMaterial3D_j2wvy")
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(4.75858, 0, 0, 0, 1.73728, 0, 0, 0, 3.79436, 0.146875, -1.515, -0.0688224)
+mesh = SubResource("PlaneMesh_ki0pk")
+
+[node name="Base" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.16831, 0, 0, 0, 3.08546, 0, 0, 0, 1.16831, 0.0806778, -0.190858, -0.0483843)
+mesh = SubResource("BoxMesh_3ttll")
+surface_material_override/0 = SubResource("StandardMaterial3D_jhnto")
+
+[node name="Base2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.36029, 0, 0, 0, 0.812124, 0, 0, 0, 2.6067, 0.0352674, 1.70226, -0.026265)
+mesh = SubResource("PrismMesh_50xgk")
+
+[node name="Button" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.330304, 0.225695, 0.015226, -0.384828, 0.193893, -0.00831977, -0.0174794, -0.00387199, 0.470892, 0.213631, 1.67371, -0.0191744)
+mesh = SubResource("CylinderMesh_d6hia")
+surface_material_override/0 = SubResource("StandardMaterial3D_kgvoa")
+script = ExtResource("1_v4pxh")
+
+[node name="ButtonCol" type="Area3D" parent="."]
+transform = Transform3D(0.686, 0, 0, 0, 0.856292, 0, 0, 0, 1.09321, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ButtonCol"]
+transform = Transform3D(3.77733, 0, 0, 0, 4.57003, 0, 0, 0, 0.885985, 0.0674816, 0.350213, -0.0409685)
+shape = SubResource("BoxShape3D_mpddn")
+
+[node name="Button animation player" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_1p3pl")
+}
+
+[node name="Text" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.00453962, 0.0967105, 0.371163, 0.0154931, 0.885521, -0.0404915, -0.884895, 0.015008, -0.00261306, 0.0623641, 2.70054, -0.120823)
+mesh = SubResource("TextMesh_02jpg")
+surface_material_override/0 = SubResource("StandardMaterial3D_ushx5")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Text"]
+libraries = {
+"": SubResource("AnimationLibrary_ipava")
+}
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
