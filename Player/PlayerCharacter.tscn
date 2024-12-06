@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=3 uid="uid://disigk36x6oed"]
+
+[ext_resource type="Script" path="res://player_character.gd" id="1_hjsd6"]
+[ext_resource type="Script" path="res://Player/collision_shape_3d.gd" id="2_smrda"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j66dp"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_22org"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_easet"]
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+script = ExtResource("1_hjsd6")
+auto_bhop = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, 0)
+shape = SubResource("BoxShape3D_j66dp")
+script = ExtResource("2_smrda")
+
+[node name="PlayerModel" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerModel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_22org")
+
+[node name="Nose" type="Node3D" parent="PlayerModel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.44435, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerModel/Nose"]
+transform = Transform3D(0.435, 0, 0, 0, 0.435, 0, 0, 0, 0.435, 0, -0.172909, -0.408772)
+mesh = SubResource("PrismMesh_easet")
+
+[node name="HeadOgPos" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+
+[node name="Head" type="Node3D" parent="HeadOgPos"]
+unique_name_in_owner = true
+
+[node name="CamSmooth" type="Node3D" parent="HeadOgPos/Head"]
+unique_name_in_owner = true
+
+[node name="Cam" type="Camera3D" parent="HeadOgPos/Head/CamSmooth"]
+unique_name_in_owner = true
+cull_mask = 1048573
+
+[node name="StairAheadRC3D" type="RayCast3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0196286, 0.467655, -0.67205)
+target_position = Vector3(0, -0.55, 0)
+
+[node name="StairBelowRC3D2" type="RayCast3D" parent="."]
+unique_name_in_owner = true
+target_position = Vector3(0, -0.75, 0)
