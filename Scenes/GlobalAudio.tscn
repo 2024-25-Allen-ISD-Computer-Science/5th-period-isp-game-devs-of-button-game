@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dk8qx15keto30"]
+
+[ext_resource type="AudioStream" uid="uid://b56lotomckllr" path="res://Voicy_Chainsaw [ERRAPE].mp3" id="1_f1hsm"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer"]
+stream = ExtResource("1_f1hsm")
