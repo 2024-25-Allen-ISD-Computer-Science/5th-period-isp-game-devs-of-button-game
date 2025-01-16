@@ -11,4 +11,4 @@ func buttonPressed() -> void:
 
 #Settings
 func _on_open_settings_pressed() -> void:
-	get_tree().change_scene_to_file("res://Scenes/Settings.tscn")
+	get_tree().change_scene_to_file("res://Settings.tscn")
