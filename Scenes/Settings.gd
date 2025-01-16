@@ -6,7 +6,7 @@ func _ready():
 
 #exit settings
 func _on_pressed() -> void:
-	get_tree().change_scene_to_file("res://Scenes/title_screen.tscn")
+	get_tree().change_scene_to_file("res://title_screen.tscn")
 
 
 func _on_h_slider_mouse_exited() -> void:
