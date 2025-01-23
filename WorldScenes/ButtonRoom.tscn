@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://cu5lajxjpob3m"]
+[gd_scene load_steps=9 format=3 uid="uid://cu5lajxjpob3m"]
 
 [ext_resource type="PackedScene" uid="uid://disigk36x6oed" path="res://Player/PlayerCharacter.tscn" id="1_lfxtq"]
+[ext_resource type="PackedScene" uid="uid://bwc4tutp4bnjd" path="res://utils/Button.tscn" id="1_ncied"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s2t8o"]
 albedo_color = Color(0.337255, 0.337255, 0.337255, 1)
@@ -130,6 +131,9 @@ transparency = 0.51
 cast_shadow = 0
 material = SubResource("StandardMaterial3D_nf55v")
 
+[node name="Button" parent="Room" instance=ExtResource("1_ncied")]
+transform = Transform3D(-0.748959, 0, -0.0125109, 0, 0.749063, 0, 0.0125109, 0, -0.748959, 1.697, 0.208861, 0.50151)
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ef78l")
 
@@ -140,3 +144,5 @@ omni_attenuation = 0.394
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("1_lfxtq")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.48175, 0.203449, 0.60366)
+
+[node name="Event Manager" type="Node3D" parent="."]

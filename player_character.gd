@@ -39,6 +39,7 @@ func _ready():
 	for child in $PlayerModel.find_children("*", "VisualInstance3D"):
 		child.set_layer_mask_value(1,false)
 		child.set_layer_mask_value(2,true)
+	%InteractRC.collide_with_bodies=true
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
@@ -198,6 +199,7 @@ func _handle_ground_physics(delta) -> void:
 	self.velocity *= new_speed
 
 func _physics_process(delta):
+	
 	if is_on_floor() or _snapped_to_stairs_last_frame: _last_frame_was_on_floor = Engine.get_physics_frames()
 	
 	#normalizing the inputs ensures that moving vertically isnt faster than moving normally
@@ -221,3 +223,11 @@ func _physics_process(delta):
 		_snap_down_to_stairs_check()
 	
 	_slide_camera_smooth_back_to_origin(delta)
+	
+	if Input.is_action_just_pressed("Interact"):
+		%InteractRC.force_raycast_update()
+		if %InteractRC.is_colliding():
+			var test = %InteractRC.get_collider()
+			for child in test.get_children():
+				if child.name == 'InteractableD':
+					child.InteractedWith=true
