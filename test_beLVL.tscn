@@ -1,0 +1,64 @@
+[gd_scene load_steps=13 format=3 uid="uid://bx3oib0sta2rs"]
+
+[ext_resource type="PackedScene" uid="uid://bak8ltrhbmlv5" path="res://utils/CSGStairMaker3D.tscn" id="1_lybql"]
+[ext_resource type="Script" path="res://Scripts/test_be_lvl.gd" id="1_rkptd"]
+[ext_resource type="PackedScene" uid="uid://disigk36x6oed" path="res://Player/PlayerCharacter.tscn" id="2_ynylp"]
+[ext_resource type="Texture2D" uid="uid://cc11qgiwgjyfx" path="res://Assets/RandomTxture.png" id="4_j5775"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0itx7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sn4n4"]
+size = Vector3(10, 0.2, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vsl7l"]
+size = Vector3(10, 0.2, 10)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_d0v8q"]
+
+[sub_resource type="Sky" id="Sky_jcvhx"]
+sky_material = SubResource("ProceduralSkyMaterial_d0v8q")
+
+[sub_resource type="Environment" id="Environment_ti6gk"]
+background_mode = 2
+sky = SubResource("Sky_jcvhx")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_137ot"]
+albedo_texture = ExtResource("4_j5775")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iw1lc"]
+albedo_color = Color(0, 0, 0, 1)
+
+[node name="TestButtonevent" type="Node3D"]
+script = ExtResource("1_rkptd")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_0itx7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_sn4n4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_vsl7l")
+
+[node name="CSGStairMaker3D" parent="." instance=ExtResource("1_lybql")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.62154, 0.6, -1.25274)
+use_collision = true
+size = Vector3(2.04736, 1, 1)
+num_stairs = 8
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("2_ynylp")]
+transform = Transform3D(0.0137352, 0, -0.999906, 0, 1, 0, 0.999906, 0, 0.0137352, -1.17389, 0.1, 2.30896)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ti6gk")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.0186914, -0.999825, 0, 0.999825, 0.0186914, 1.82796, 2.0496, 2.33268)
+material_override = SubResource("StandardMaterial3D_137ot")
+size = Vector3(0.0828857, 2.6669, 2.03699)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.96593, -0.258802, 0, 0.258802, 0.96593, 1.82796, 0.556887, 2.33268)
+material_override = SubResource("StandardMaterial3D_iw1lc")
+radius = 0.0361199
+height = 1.34222

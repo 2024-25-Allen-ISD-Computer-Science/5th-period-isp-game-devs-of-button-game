@@ -131,18 +131,9 @@ transparency = 0.51
 cast_shadow = 0
 material = SubResource("StandardMaterial3D_nf55v")
 
-[node name="CSGCylinder3D9" type="CSGCylinder3D" parent="Room"]
-transform = Transform3D(0.5, 0, 0, 0, 0.2, 0, 0, 0, 0.5, 0.5, 0.4, -2)
-use_collision = true
-radius = 1.29624
-sides = 34
-
-[node name="SpawnPosition" type="Node3D" parent="Room/CSGCylinder3D9"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.74532, 0)
-
-[node name="MainButton" parent="Room" node_paths=PackedStringArray("ObjSpawnPos") instance=ExtResource("1_ncied")]
-transform = Transform3D(-0.748709, 0, 0.0230582, 0, 0.749064, 0, -0.0230582, 0, -0.748709, 1.75, 0.0802613, 0.5)
-ObjSpawnPos = NodePath("../CSGCylinder3D9/SpawnPosition")
+[node name="MainButton" parent="Room" instance=ExtResource("1_ncied")]
+transform = Transform3D(-0.748709, 0, 0.0230582, 0, 0.749064, 0, -0.0230582, 0, -0.748709, 1.75372, 0.142926, 0.476362)
+Activated = null
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ef78l")

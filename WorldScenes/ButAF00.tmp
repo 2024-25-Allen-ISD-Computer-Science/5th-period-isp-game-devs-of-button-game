@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://cu5lajxjpob3m"]
+[gd_scene load_steps=10 format=3 uid="uid://cu5lajxjpob3m"]
 
 [ext_resource type="PackedScene" uid="uid://disigk36x6oed" path="res://Player/PlayerCharacter.tscn" id="1_lfxtq"]
 [ext_resource type="PackedScene" uid="uid://bwc4tutp4bnjd" path="res://utils/MainButton.tscn" id="1_ncied"]
+[ext_resource type="Script" path="res://utils/event_manager.gd" id="3_gbgmo"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s2t8o"]
 albedo_color = Color(0.337255, 0.337255, 0.337255, 1)
@@ -131,18 +132,8 @@ transparency = 0.51
 cast_shadow = 0
 material = SubResource("StandardMaterial3D_nf55v")
 
-[node name="CSGCylinder3D9" type="CSGCylinder3D" parent="Room"]
-transform = Transform3D(0.5, 0, 0, 0, 0.2, 0, 0, 0, 0.5, 0.5, 0.4, -2)
-use_collision = true
-radius = 1.29624
-sides = 34
-
-[node name="SpawnPosition" type="Node3D" parent="Room/CSGCylinder3D9"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.74532, 0)
-
-[node name="MainButton" parent="Room" node_paths=PackedStringArray("ObjSpawnPos") instance=ExtResource("1_ncied")]
-transform = Transform3D(-0.748709, 0, 0.0230582, 0, 0.749064, 0, -0.0230582, 0, -0.748709, 1.75, 0.0802613, 0.5)
-ObjSpawnPos = NodePath("../CSGCylinder3D9/SpawnPosition")
+[node name="MainButton" parent="Room" instance=ExtResource("1_ncied")]
+transform = Transform3D(-0.999479, 0, -0.0322655, 0, 1, 0, 0.0322655, 0, -0.999479, 1.78766, -0.20202, 0.500911)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ef78l")
@@ -154,3 +145,7 @@ omni_attenuation = 0.394
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("1_lfxtq")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.48175, 0.203449, 0.60366)
+
+[node name="Event Manager" type="Node3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_gbgmo")
