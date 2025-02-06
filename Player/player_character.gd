@@ -4,6 +4,10 @@ extends CharacterBody3D
 @export var jump_velocity := 6.0
 @export var auto_bhop := true
 @onready var Cam := %Cam
+@onready var HealthGui = %Cam/HUD/Healthbarback/healthbarmain
+@onready var HealthGuiOH = %Cam/HUD/Healthbarback/healthbaroverheal
+@onready var HealthGUIOH_OGPOS = HealthGuiOH.position
+@onready var HealthGui_OGSize = HealthGui.size
 
 # ground movement settings (also taken from godot sourcelike sthuff
 @export var walk_speed := 7.0
@@ -11,6 +15,9 @@ extends CharacterBody3D
 @export var ground_accel := 14.0
 @export var ground_decel := 10.0
 @export var ground_friction := 6.0
+@export var Health := 100.0
+@export var MaxHealth := 100.0
+@export var Dead := false
 
 
 #air movement settings taken from godot sourcelike shtuff :) (I really like source movement)
@@ -70,7 +77,20 @@ func _slide_camera_smooth_back_to_origin(delta):
 	_saved_camera_global_pos = %CamSmooth.global_position
 	if %CamSmooth.position.y == 0:
 		_saved_camera_global_pos = null # Stop smoothing camera
-	
+
+func _push_away_rigid_bodies():
+	for i in get_slide_collision_count():
+		var c := get_slide_collision(i)
+		if c.get_collider() is RigidBody3D:
+			var push_dir = -c.get_normal()
+			var velocity_diff_in_push_dir = self.velocity.dot(push_dir) - c.get_collider().linear_velocity.dot(push_dir)
+			velocity_diff_in_push_dir = max(0.,velocity_diff_in_push_dir)
+			const APPROX_MASS_KG = 80.0
+			var mass_ratio = min(1., APPROX_MASS_KG/c.get_collider().mass)
+			push_dir.y = 0
+			var push_force = mass_ratio*5.0
+			c.get_collider().apply_impulse(push_dir*velocity_diff_in_push_dir*push_force, c.get_position() - c.get_collider().global_position)
+
 func _snap_down_to_stairs_check() -> void:
 	var did_snap := false
 	var floor_below : bool = %StairBelowRC3D2.is_colliding() and not is_surface_too_steep(%StairBelowRC3D2.get_collision_normal())
@@ -199,6 +219,17 @@ func _handle_ground_physics(delta) -> void:
 	self.velocity *= new_speed
 
 func _physics_process(delta):
+	#hud stuff lol
+	if Health > 0 and Health <=MaxHealth: # checks if health is normal
+		HealthGui.size.x = HealthGui_OGSize.x*(Health/MaxHealth) #if so, set size of main health bar (the red one)
+		#to a percentage of its full ammount based on what Health is at.
+	elif Health <=0:
+		Dead = true # pretty self explanatory, if health is less than or equal to 0, player dies
+		#(I'll flesh out death l8r tho)
+	elif Health > MaxHealth: #if health is more than Max health I clamp it for now but im planning to add an 
+		#overheal state for health where if the player gets like more healthpacks / a special healthpack
+		#player gets temporary health that degrades overtime (like tf2...) ((I really like that game))
+		Health = clamp(Health,0,MaxHealth)
 	
 	if is_on_floor() or _snapped_to_stairs_last_frame: _last_frame_was_on_floor = Engine.get_physics_frames()
 	
@@ -219,6 +250,7 @@ func _physics_process(delta):
 		_handle_air_physics(delta)
 	
 	if not _snap_up_stairs_check(delta):
+		_push_away_rigid_bodies()
 		move_and_slide()
 		_snap_down_to_stairs_check()
 	

@@ -13,6 +13,7 @@ size = Vector3(1, 2, 1)
 [node name="CharacterBody3D" type="CharacterBody3D"]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
 script = ExtResource("1_hjsd6")
+auto_bhop = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 unique_name_in_owner = true
@@ -73,13 +74,6 @@ offset_top = 7.0
 offset_right = 258.0
 offset_bottom = 31.0
 color = Color(0.443567, 0, 0.106176, 1)
-
-[node name="healthbaroverheal" type="ColorRect" parent="HeadOgPos/Head/CamSmooth/Cam/HUD/Healthbarback"]
-offset_left = 258.0
-offset_top = 7.0
-offset_right = 258.0
-offset_bottom = 31.0
-color = Color(0.999994, 0.818218, 0.816858, 1)
 
 [node name="StairAheadRC3D" type="RayCast3D" parent="."]
 unique_name_in_owner = true

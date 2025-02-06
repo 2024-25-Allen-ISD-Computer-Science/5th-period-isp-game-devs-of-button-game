@@ -48,6 +48,19 @@ num_stairs = 8
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("2_ynylp")]
 transform = Transform3D(0.0137352, 0, -0.999906, 0, 1, 0, 0.999906, 0, 0.0137352, -1.17389, 0.1, 2.30896)
+look_sensitivity = 0.006
+jump_velocity = 6.0
+auto_bhop = true
+walk_speed = 7.0
+sprint_speed = 8.5
+ground_accel = 14.0
+ground_decel = 10.0
+ground_friction = 6.0
+Health = 100.0
+Dead = false
+air_cap = 0.85
+air_accel = 800.0
+air_move_speed = 500.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ti6gk")

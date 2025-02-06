@@ -1,28 +1,32 @@
-[gd_scene load_steps=5 format=3 uid="uid://bdiskax3l543x"]
+[gd_scene load_steps=6 format=3 uid="uid://bdiskax3l543x"]
 
 [ext_resource type="Script" path="res://utils/interactable.gd" id="1_6sfkn"]
+[ext_resource type="Script" path="res://Scripts/test_be_obj.gd" id="1_w1c1v"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_yo4me"]
 friction = 0.0
-bounce = 100000.0
+bounce = 1.0
 
-[sub_resource type="BoxMesh" id="BoxMesh_c24ee"]
-size = Vector3(0.2, 0.2, 0.2)
+[sub_resource type="SphereMesh" id="SphereMesh_35top"]
+radius = 0.2
+height = 0.4
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ksbfh"]
-size = Vector3(0.2, 0.2, 0.2)
+[sub_resource type="SphereShape3D" id="SphereShape3D_jlbjr"]
+radius = 0.2
 
 [node name="TestBeObj" type="Node3D"]
+script = ExtResource("1_w1c1v")
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
-mass = 0.01
+mass = 100.0
 physics_material_override = SubResource("PhysicsMaterial_yo4me")
+continuous_cd = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
-mesh = SubResource("BoxMesh_c24ee")
+mesh = SubResource("SphereMesh_35top")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
-shape = SubResource("BoxShape3D_ksbfh")
+shape = SubResource("SphereShape3D_jlbjr")
 
 [node name="InteractableD" type="Node3D" parent="."]
 unique_name_in_owner = true
