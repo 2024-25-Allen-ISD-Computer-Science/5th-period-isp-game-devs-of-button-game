@@ -1,0 +1,49 @@
+[gd_scene load_steps=9 format=3 uid="uid://c4n0g27xfeixj"]
+
+[ext_resource type="Texture2D" uid="uid://cs4osartv2a4d" path="res://circle_01.png" id="1_83ptv"]
+
+[sub_resource type="Gradient" id="Gradient_3dvam"]
+offsets = PackedFloat32Array(0, 0.00113122, 0.00565611, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.197964, 0.197964, 0.197964, 1, 0.960784, 0.960784, 0.960784, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_836oa"]
+gradient = SubResource("Gradient_3dvam")
+use_hdr = true
+
+[sub_resource type="Curve" id="Curve_bogcd"]
+_data = [Vector2(0, 0.501694), 0.0, 0.353818, 0, 0, Vector2(0.502123, 0.741576), 0.528212, 0.528212, 0, 0, Vector2(1, 1), 0.435131, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_p346h"]
+curve = SubResource("Curve_bogcd")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_274as"]
+gravity = Vector3(0, 0, 0)
+scale_min = 3.0
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_p346h")
+color = Color(0.0627451, 0.0627451, 1, 1)
+color_ramp = SubResource("GradientTexture1D_836oa")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_npvqn"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_83ptv")
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_e0lx1"]
+material = SubResource("StandardMaterial3D_npvqn")
+
+[node name="ElectricOrb" type="Node3D"]
+
+[node name="Rings" type="GPUParticles3D" parent="."]
+amount = 3
+lifetime = 4.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_274as")
+draw_pass_1 = SubResource("QuadMesh_e0lx1")
