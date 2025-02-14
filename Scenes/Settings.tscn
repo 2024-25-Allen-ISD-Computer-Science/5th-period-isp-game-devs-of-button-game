@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://c0ub5wtu47sbo"]
+[gd_scene load_steps=5 format=3 uid="uid://c0ub5wtu47sbo"]
 
-[ext_resource type="Script" path="res://Scripts/Settings.gd" id="1_skh8w"]
-[ext_resource type="Script" path="res://Scenes/music_slider.gd" id="2_8tq8u"]
+[ext_resource type="Script" path="res://Settings.gd" id="1_skh8w"]
+[ext_resource type="Script" path="res://music_slider.gd" id="2_8tq8u"]
 [ext_resource type="PackedScene" uid="uid://dk8qx15keto30" path="res://GlobalAudio.tscn" id="2_22mcg"]
+
+[sub_resource type="AudioStream" id="AudioStream_r7pbj"]
 
 [node name="Settings" type="Node2D"]
 position = Vector2(24, 4)
@@ -48,6 +50,7 @@ offset_bottom = 612.0
 text = "Apply Settings"
 
 [node name="AudioStreamPlayer" parent="." instance=ExtResource("2_22mcg")]
+stream = SubResource("AudioStream_r7pbj")
 autoplay = true
 bus = &"Music"
 
