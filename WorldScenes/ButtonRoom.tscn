@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://cu5lajxjpob3m"]
+[gd_scene load_steps=10 format=3 uid="uid://cu5lajxjpob3m"]
 
 [ext_resource type="PackedScene" uid="uid://disigk36x6oed" path="res://Player/PlayerCharacter.tscn" id="1_lfxtq"]
 [ext_resource type="PackedScene" uid="uid://bwc4tutp4bnjd" path="res://utils/MainButton.tscn" id="1_ncied"]
+[ext_resource type="PackedScene" uid="uid://cc15et4lhmafe" path="res://utils/DMGAreaCNT.tscn" id="3_q6yoi"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s2t8o"]
 albedo_color = Color(0.337255, 0.337255, 0.337255, 1)
@@ -120,7 +121,6 @@ sides = 39
 
 [node name="CSGCylinder3D4" type="CSGCylinder3D" parent="Room"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4705, -0.113975, 0.520502)
-use_collision = true
 radius = 1.29624
 height = 0.634849
 sides = 34
@@ -154,4 +154,13 @@ omni_attenuation = 0.394
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("1_lfxtq")]
 transform = Transform3D(0.0292126, 0, -0.999573, 0, 1, 0, 0.999573, 0, 0.0292126, -2.07384, 0.335935, 0.625719)
-auto_bhop = true
+
+[node name="DmgArea" parent="." instance=ExtResource("3_q6yoi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.107415, 1.95432, 3.6298)
+
+[node name="DmgArea2" parent="." instance=ExtResource("3_q6yoi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.75068, 1.95432, 3.6298)
+Damage = 2.0
+
+[connection signal="body_exited" from="DmgArea" to="CharacterBody3D" method="_on_dmg_area_body_exited"]
+[connection signal="body_exited" from="DmgArea2" to="CharacterBody3D" method="_on_dmg_area_body_exited"]

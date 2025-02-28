@@ -6,7 +6,8 @@ extends CharacterBody3D
 @onready var Cam := %Cam
 @onready var HealthGui = %Cam/HUD/Healthbarback/healthbarmain
 @onready var HealthGuiOH = %Cam/HUD/Healthbarback/healthbaroverheal
-@onready var HealthGUIOH_OGPOS = HealthGuiOH.position
+@onready var HealthGUIOH_OGPos = HealthGuiOH.position
+@onready var HealthGUIOH_OGSize = HealthGuiOH.size
 @onready var HealthGui_OGSize = HealthGui.size
 
 # ground movement settings (also taken from godot sourcelike sthuff
@@ -18,7 +19,7 @@ extends CharacterBody3D
 @export var Health := 100.0
 @export var MaxHealth := 100.0
 @export var Dead := false
-
+@export var DmgAmt := 0.0
 
 #air movement settings taken from godot sourcelike shtuff :) (I really like source movement)
 @export var air_cap := 0.85 #can surf steeper ramps if var is higher
@@ -27,7 +28,6 @@ extends CharacterBody3D
 
 
 var wish_dir := Vector3.ZERO
-
 const CrouchTranslate = 0.7
 const CrouchJumpAdd = CrouchTranslate + 0.9
 var is_crouched := false
@@ -200,6 +200,8 @@ func _handle_air_physics(delta) -> void:
 			self.motion_mode = CharacterBody3D.MOTION_MODE_GROUNDED
 		clip_velocity(get_wall_normal(), 1, delta) #allows surf somehow 
 
+
+
 func _handle_ground_physics(delta) -> void:
 	#gets current speed in the direction player wishes 2 go and dot products it w/ direction & velocity
 	#dot product is basically just the relationship between the way the player is heading and their velocity
@@ -218,21 +220,14 @@ func _handle_ground_physics(delta) -> void:
 		new_speed /= self.velocity.length()
 	self.velocity *= new_speed
 
+func check_for_dmgzones():
+	if DmgAmt!=0.0:
+		Health-=DmgAmt
+
 func _physics_process(delta):
-	#hud stuff lol
-	if Health > 0 and Health <=MaxHealth: # checks if health is normal
-		HealthGui.size.x = HealthGui_OGSize.x*(Health/MaxHealth) #if so, set size of main health bar (the red one)
-		#to a percentage of its full ammount based on what Health is at.
-	elif Health <=0:
-		Dead = true # pretty self explanatory, if health is less than or equal to 0, player dies
-		#(I'll flesh out death l8r tho)
-	elif Health > MaxHealth: #if health is more than Max health I clamp it for now but im planning to add an 
-		#overheal state for health where if the player gets like more healthpacks / a special healthpack
-		#player gets temporary health that degrades overtime (like tf2...) ((I really like that game))
-		Health = clamp(Health,0,MaxHealth)
-	
 	if is_on_floor() or _snapped_to_stairs_last_frame: _last_frame_was_on_floor = Engine.get_physics_frames()
 	
+	#if check_for_dmgzones()[0]: Health-=check_for_dmgzones()[1]
 	#normalizing the inputs ensures that moving vertically isnt faster than moving normally
 	var input_dir = Input.get_vector("Left","Right","Forward","Backward").normalized()
 	#wish_dir is the direction the player "wishes" to go in, the basis of self.global_transform.basis ensures that-
@@ -253,9 +248,8 @@ func _physics_process(delta):
 		_push_away_rigid_bodies()
 		move_and_slide()
 		_snap_down_to_stairs_check()
-	
+	check_for_dmgzones()
 	_slide_camera_smooth_back_to_origin(delta)
-	
 	if Input.is_action_just_pressed("Interact"):
 		%InteractRC.force_raycast_update()
 		if %InteractRC.is_colliding():
@@ -263,3 +257,21 @@ func _physics_process(delta):
 			for child in test.get_children():
 				if child.name == 'InteractableD':
 					child.InteractedWith=true
+	#hud stuff lol
+	if Health > 0 and Health <=MaxHealth: # checks if health is normal
+		HealthGui.size.x = HealthGui_OGSize.x*(Health/MaxHealth) #if so, set size of main health bar (the red one)
+		#to a percentage of its full ammount based on what Health is at.
+	elif Health <=0:
+		Dead = true # pretty self explanatory, if health is less than or equal to 0, player dies
+		#(I'll flesh out death l8r tho)
+	elif Health > MaxHealth: #if health is more than Max health I clamp it for now but im planning to add an 
+		#overheal state for health where if the player gets like more healthpacks / a special healthpack
+		#player gets temporary health that degrades overtime (like tf2...) ((I really like that game))
+		Health = clamp(Health,0,MaxHealth*1.5)
+		var perc = (Health/MaxHealth)
+		var MiddleMan1 = HealthGUIOH_OGSize.x-HealthGui.position.x
+		HealthGuiOH.position.x = MiddleMan1*perc
+		HealthGuiOH.size.x = HealthGuiOH.position.x+(HealthGUIOH_OGSize.x-HealthGui.position.x)
+
+func _on_dmg_area_body_exited(body: Node3D) -> void:
+	DmgAmt=0.0

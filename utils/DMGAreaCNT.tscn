@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://cc15et4lhmafe"]
+
+[ext_resource type="Script" path="res://utils/dmg_box.gd" id="1_utqym"]
+[ext_resource type="Script" path="res://utils/hideonstart.gd" id="2_7cv5b"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g53kq"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_rtjud"]
+
+[node name="DmgArea" type="Area3D"]
+collision_layer = 256
+collision_mask = 256
+script = ExtResource("1_utqym")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_g53kq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_rtjud")
+script = ExtResource("2_7cv5b")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
