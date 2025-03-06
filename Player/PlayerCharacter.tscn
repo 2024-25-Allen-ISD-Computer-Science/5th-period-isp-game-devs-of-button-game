@@ -11,7 +11,7 @@ size = Vector3(1, 2, 1)
 [sub_resource type="PrismMesh" id="PrismMesh_easet"]
 
 [node name="CharacterBody3D" type="CharacterBody3D"]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 0, 0, 0)
 collision_layer = 257
 collision_mask = 257
 script = ExtResource("1_hjsd6")

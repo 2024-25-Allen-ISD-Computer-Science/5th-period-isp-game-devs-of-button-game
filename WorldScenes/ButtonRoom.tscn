@@ -161,6 +161,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.107415, 1.95432, 3.6298)
 [node name="DmgArea2" parent="." instance=ExtResource("3_q6yoi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.75068, 1.95432, 3.6298)
 Damage = 2.0
+OneTimeDmg = true
 
 [connection signal="body_exited" from="DmgArea" to="CharacterBody3D" method="_on_dmg_area_body_exited"]
 [connection signal="body_exited" from="DmgArea2" to="CharacterBody3D" method="_on_dmg_area_body_exited"]

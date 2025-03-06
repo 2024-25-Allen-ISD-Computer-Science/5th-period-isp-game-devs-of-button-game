@@ -9,6 +9,7 @@ extends CharacterBody3D
 @onready var HealthGUIOH_OGPos = HealthGuiOH.position
 @onready var HealthGUIOH_OGSize = HealthGuiOH.size
 @onready var HealthGui_OGSize = HealthGui.size
+@onready var DS = load("res://Player/DeathScreen.tscn").instantiate()
 
 # ground movement settings (also taken from godot sourcelike sthuff
 @export var walk_speed := 7.0
@@ -53,7 +54,8 @@ func _unhandled_input(event):
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	elif event.is_action_pressed("ui_cancel"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		
+	if Dead==true:
+		return
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		if event is InputEventMouseMotion:
 			rotate_y(-event.relative.x * look_sensitivity)
@@ -225,6 +227,8 @@ func check_for_dmgzones():
 		Health-=DmgAmt
 
 func _physics_process(delta):
+	if Dead==true:
+		return
 	if is_on_floor() or _snapped_to_stairs_last_frame: _last_frame_was_on_floor = Engine.get_physics_frames()
 	
 	#if check_for_dmgzones()[0]: Health-=check_for_dmgzones()[1]
@@ -263,7 +267,10 @@ func _physics_process(delta):
 		#to a percentage of its full ammount based on what Health is at.
 	elif Health <=0:
 		Dead = true # pretty self explanatory, if health is less than or equal to 0, player dies
-		#(I'll flesh out death l8r tho)
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		var tween = create_tween()
+		tween.tween_property(self, "rotation_degrees", Vector3(0,0,60),0.5)
+		add_child(DS)
 	elif Health > MaxHealth: #if health is more than Max health I clamp it for now but im planning to add an 
 		#overheal state for health where if the player gets like more healthpacks / a special healthpack
 		#player gets temporary health that degrades overtime (like tf2...) ((I really like that game))

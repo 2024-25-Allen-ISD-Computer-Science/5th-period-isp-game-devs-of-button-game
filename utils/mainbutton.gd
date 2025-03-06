@@ -23,7 +23,7 @@ func _process(delta: float) -> void:
 		timeron=true
 		%BPAnim.play("push")
 		var random_scene = eventarray.pick_random()
-		print(random_scene)
+		#print(random_scene)
 		if "LVL" in random_scene:
 			await get_tree().create_timer(1.0).timeout
 			get_tree().change_scene_to_file(random_scene)
