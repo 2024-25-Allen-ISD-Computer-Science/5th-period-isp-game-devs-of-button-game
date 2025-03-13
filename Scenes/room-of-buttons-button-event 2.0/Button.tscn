@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=3 uid="uid://bu0ifpwoj8ats"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_sk4jc"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_5qtcm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1ph0f"]
+albedo_color = Color(0.772973, 0, 0.0540325, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_qhowv"]
+material = SubResource("StandardMaterial3D_1ph0f")
+
+[sub_resource type="Animation" id="Animation_mi1k0"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.18819, 1.47568, 0.000148773)
+
+[sub_resource type="Animation" id="Animation_kh3jx"]
+resource_name = "push"
+length = 0.4
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.18819, 1.47568, 0.000148773, 0.2, 1, 0.170765, 1.45744, 0.000148773, 0.4, 1, 0.18819, 1.47568, 0.000148773)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fx0fk"]
+_data = {
+"RESET": SubResource("Animation_mi1k0"),
+"push": SubResource("Animation_kh3jx")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7wxya"]
+size = Vector3(0.454102, 1.6261, 1.02313)
+
+[node name="Button" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="Stand" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(0.3, 0, 0, 0, 1.45, 0, 0, 0, 0.3, 0, 0.725, 0)
+mesh = SubResource("BoxMesh_sk4jc")
+skeleton = NodePath("../..")
+
+[node name="Plat" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(0.256688, 0.0414469, 0, -0.245227, 0.0433838, 0, 0, 0, 1.02, 0.138871, 1.46436, 0)
+mesh = SubResource("BoxMesh_5qtcm")
+
+[node name="Button" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(0.148102, 0.0168335, 0, -0.141529, 0.0176153, 0, 0, 0, 0.2, 0.18819, 1.47568, 0.000148773)
+mesh = SubResource("CylinderMesh_qhowv")
+
+[node name="BPAnim" type="AnimationPlayer" parent="StaticBody3D/Button"]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_fx0fk")
+}
+
+[node name="Collsion" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0668945, 0.813774, 0.0139232)
+shape = SubResource("BoxShape3D_7wxya")
+
+[node name="InteractableD" type="Node3D" parent="StaticBody3D"]
+unique_name_in_owner = true
+metadata/TOI = "Door"
