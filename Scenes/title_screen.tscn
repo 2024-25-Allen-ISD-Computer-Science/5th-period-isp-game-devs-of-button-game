@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://title_screen.gd" id="1_a3q3r"]
 [ext_resource type="PackedScene" uid="uid://dk8qx15keto30" path="res://GlobalAudio.tscn" id="2_ntfih"]
-[ext_resource type="Texture2D" uid="uid://hpbys4bgukgj" path="res://dada.png" id="3_nu7wa"]
+[ext_resource type="Texture2D" uid="uid://di3bfy80mes6y" path="res://buttongameTitleScreen.png" id="2_xm6xg"]
 
 [sub_resource type="GDScript" id="GDScript_3agqk"]
 script/source = "extends Button
@@ -30,7 +30,7 @@ offset_left = -1.152
 offset_top = -1.298
 offset_right = 1149.85
 offset_bottom = 648.702
-texture = ExtResource("3_nu7wa")
+texture = ExtResource("2_xm6xg")
 expand_mode = 1
 
 [node name="StartGame" type="Button" parent="."]
