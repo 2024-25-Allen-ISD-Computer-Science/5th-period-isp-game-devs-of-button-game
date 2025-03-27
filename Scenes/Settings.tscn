@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://c0ub5wtu47sbo"]
 
-[ext_resource type="Texture2D" uid="uid://cj2hufko0b2ib" path="res://Screenshot 2024-07-29 021214 - Copy.png" id="1_af1w5"]
 [ext_resource type="Script" path="res://Settings.gd" id="1_skh8w"]
+[ext_resource type="Texture2D" uid="uid://bcwqxeqjo5bwx" path="res://buttongamesettingbackground.webp" id="1_xsc2p"]
 [ext_resource type="Script" path="res://music_slider.gd" id="2_8tq8u"]
 [ext_resource type="PackedScene" uid="uid://dk8qx15keto30" path="res://GlobalAudio.tscn" id="2_22mcg"]
 
@@ -11,11 +11,11 @@
 position = Vector2(24, 4)
 
 [node name="TextureRect" type="TextureRect" parent="."]
-offset_left = -133.0
-offset_top = -378.0
-offset_right = 1336.0
-offset_bottom = 652.0
-texture = ExtResource("1_af1w5")
+offset_left = -28.0
+offset_top = -270.0
+offset_right = 1135.0
+offset_bottom = 754.0
+texture = ExtResource("1_xsc2p")
 
 [node name="SettingTitle" type="Label" parent="."]
 offset_left = 381.0
@@ -28,6 +28,7 @@ text = "Settings"
 horizontal_alignment = 1
 
 [node name="Button" type="Button" parent="SettingTitle"]
+layout_mode = 0
 offset_left = 156.0
 offset_top = 586.0
 offset_right = 329.0
