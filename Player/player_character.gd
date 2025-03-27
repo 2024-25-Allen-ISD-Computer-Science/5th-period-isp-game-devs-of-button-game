@@ -268,9 +268,9 @@ func _physics_process(delta):
 	elif Health <=0:
 		Dead = true # pretty self explanatory, if health is less than or equal to 0, player dies
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		var tween = create_tween()
+		var tween = create_tween() # tween to make the player keel over when dead lul
 		tween.tween_property(self, "rotation_degrees", Vector3(0,0,60),0.5)
-		add_child(DS)
+		add_child(DS) # adds death screen into the scene hierarchy 
 	elif Health > MaxHealth: #if health is more than Max health I clamp it for now but im planning to add an 
 		#overheal state for health where if the player gets like more healthpacks / a special healthpack
 		#player gets temporary health that degrades overtime (like tf2...) ((I really like that game))

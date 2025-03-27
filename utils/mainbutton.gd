@@ -5,12 +5,17 @@ extends Node3D
 var eventsdir := "res://buttonevents/"
 var eventarray: Array[String] = []
 var timeron = false
+
+var level_scenes = [ #preload all lvl events inside res://buttonevents/lvlevents here!
+	"res://buttonevents/lvlevents/test_beLVL.tscn",
+]
+var object_scenes = [ #preload all obj events inside res://buttonevents/objevents here!
+	preload("res://buttonevents/objevents/test_beOBJ.tscn")
+]
+var typesOfEvents = 2 #change to ammount of different types of events we have, we currently have two (levels and objects)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var buttoneventsdir := DirAccess.open(eventsdir)
-	var events := buttoneventsdir.get_files()
-	for event in events:
-		eventarray.append(eventsdir + event)
+	randomize()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -22,15 +27,16 @@ func _process(delta: float) -> void:
 	if Activated==true and timeron==false:
 		timeron=true
 		%BPAnim.play("push")
-		var random_scene = eventarray.pick_random()
-		#print(random_scene)
-		if "LVL" in random_scene:
-			await get_tree().create_timer(1.0).timeout
-			get_tree().change_scene_to_file(random_scene)
-		elif "OBJ" in random_scene:
-			var obj = load(random_scene).instantiate()
-			add_child(obj)
-			obj.global_position = ObjSpawnPos.global_position
+		var choice = randi() % typesOfEvents
+		if choice == 0: #object spawns
+			var random_scene = object_scenes[(randi() % object_scenes.size())]  # gets a random scene from object_scenes
+			var obj = random_scene.instantiate() #instantiates/"creates" it
+			add_child(obj) #puts it in the actual playable world
+			obj.global_position = ObjSpawnPos.global_position # put its in the object spawn position (weird round pedestial)
 			await get_tree().create_timer(1.5).timeout
+		elif choice == 1: #scene gets picked
+			var random_scene = level_scenes[(randi() % level_scenes.size())] 
+			get_tree().change_scene_to_file(random_scene)
+		print(choice)
 		timeron=false
 	Activated=false
