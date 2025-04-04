@@ -1,9 +1,14 @@
-[gd_scene load_steps=13 format=3 uid="uid://bx3oib0sta2rs"]
+[gd_scene load_steps=15 format=3 uid="uid://bx3oib0sta2rs"]
 
 [ext_resource type="PackedScene" uid="uid://bak8ltrhbmlv5" path="res://utils/CSGStairMaker3D.tscn" id="1_lybql"]
 [ext_resource type="Script" path="res://Scripts/test_be_lvl.gd" id="1_rkptd"]
 [ext_resource type="PackedScene" uid="uid://disigk36x6oed" path="res://Player/PlayerCharacter.tscn" id="2_ynylp"]
 [ext_resource type="Texture2D" uid="uid://cc11qgiwgjyfx" path="res://Assets/RandomTxture.png" id="4_j5775"]
+[ext_resource type="PackedScene" uid="uid://d13dpr7ndd5fy" path="res://utils/Enemy.tscn" id="5_0btn4"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_s4u8b"]
+vertices = PackedVector3Array(0.73888, 0.442356, -2.0504, 2.73888, 0.442356, -2.3004, 2.73888, 0.442356, -19.3004, -19.2611, 0.442356, -19.3004, -19.2611, 0.442356, -2.0504, 4.73888, 0.442356, -2.3004, 4.98888, 0.442356, -1.0504, 19.2389, 0.442356, -1.0504, 19.2389, 0.442356, -19.3004, 0.73888, 0.692356, -1.0504, 3.98888, 1.44236, -1.3004, 0.73888, 0.692356, -1.3004, 1.23888, 0.442356, 0.6996, 1.98888, 0.442356, 0.4496, 1.98888, 0.442356, -0.0503998, 0.73888, 0.442356, -0.0503998, 1.23888, 0.442356, 1.9496, -19.2611, 0.442356, 1.9496, 2.48888, 0.442356, 0.6996, 4.73888, 0.442356, -0.0503998, 2.48888, 0.442356, 3.9496, 1.73888, 0.442356, 19.1996, 19.2389, 0.442356, 19.1996, 1.73888, 0.442356, 4.1996, 1.23888, 0.442356, 3.9496, -19.2611, 0.442356, 19.1996)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 4), PackedInt32Array(2, 4, 3), PackedInt32Array(6, 5, 7), PackedInt32Array(7, 5, 8), PackedInt32Array(8, 5, 2), PackedInt32Array(5, 1, 2), PackedInt32Array(11, 10, 9), PackedInt32Array(13, 12, 14), PackedInt32Array(14, 12, 15), PackedInt32Array(4, 9, 15), PackedInt32Array(12, 16, 15), PackedInt32Array(15, 16, 17), PackedInt32Array(15, 17, 4), PackedInt32Array(4, 0, 11), PackedInt32Array(4, 11, 9), PackedInt32Array(13, 14, 18), PackedInt32Array(18, 14, 19), PackedInt32Array(19, 7, 20), PackedInt32Array(20, 7, 21), PackedInt32Array(21, 7, 22), PackedInt32Array(20, 18, 19), PackedInt32Array(19, 6, 7), PackedInt32Array(21, 23, 20), PackedInt32Array(23, 21, 24), PackedInt32Array(24, 21, 25), PackedInt32Array(24, 25, 17), PackedInt32Array(17, 16, 24)]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0itx7"]
 
@@ -13,65 +18,116 @@ size = Vector3(10, 0.2, 10)
 [sub_resource type="BoxMesh" id="BoxMesh_vsl7l"]
 size = Vector3(10, 0.2, 10)
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_d0v8q"]
-
-[sub_resource type="Sky" id="Sky_jcvhx"]
-sky_material = SubResource("ProceduralSkyMaterial_d0v8q")
-
-[sub_resource type="Environment" id="Environment_ti6gk"]
-background_mode = 2
-sky = SubResource("Sky_jcvhx")
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_137ot"]
 albedo_texture = ExtResource("4_j5775")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iw1lc"]
 albedo_color = Color(0, 0, 0, 1)
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xp7kn"]
+sky_energy_multiplier = 2.0
+sun_angle_max = 65.56
+
+[sub_resource type="Sky" id="Sky_jcvhx"]
+sky_material = SubResource("ProceduralSkyMaterial_xp7kn")
+process_mode = 3
+
+[sub_resource type="Environment" id="Environment_ti6gk"]
+background_mode = 2
+sky = SubResource("Sky_jcvhx")
+ambient_light_source = 3
+reflected_light_source = 2
+
 [node name="TestButtonevent" type="Node3D"]
 script = ExtResource("1_rkptd")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-physics_material_override = SubResource("PhysicsMaterial_0itx7")
+[node name="World" type="Node3D" parent="."]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("BoxShape3D_sn4n4")
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="World"]
+navigation_mesh = SubResource("NavigationMesh_s4u8b")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-mesh = SubResource("BoxMesh_vsl7l")
-
-[node name="CSGStairMaker3D" parent="." instance=ExtResource("1_lybql")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.62154, 0.6, -1.25274)
+[node name="CSGStairMaker3D" parent="World/NavigationRegion3D" instance=ExtResource("1_lybql")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.14669, 0.623944, -1.1759)
 use_collision = true
-size = Vector3(2.04736, 1, 1)
+size = Vector3(4.2085, 1, 1)
 num_stairs = 8
 
-[node name="CharacterBody3D" parent="." instance=ExtResource("2_ynylp")]
-transform = Transform3D(0.0137352, 0, -0.999906, 0, 1, 0, 0.999906, 0, 0.0137352, -1.17389, 0.1, 2.30896)
-look_sensitivity = 0.006
-jump_velocity = 6.0
-auto_bhop = true
-walk_speed = 7.0
-sprint_speed = 8.5
-ground_accel = 14.0
-ground_decel = 10.0
-ground_friction = 6.0
-Health = 100.0
-Dead = false
-air_cap = 0.85
-air_accel = 800.0
-air_move_speed = 500.0
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="World/NavigationRegion3D"]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_ti6gk")
+[node name="Floor" type="StaticBody3D" parent="World/NavigationRegion3D/CSGCombiner3D"]
+transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0)
+physics_material_override = SubResource("PhysicsMaterial_0itx7")
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/NavigationRegion3D/CSGCombiner3D/Floor"]
+shape = SubResource("BoxShape3D_sn4n4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/NavigationRegion3D/CSGCombiner3D/Floor"]
+mesh = SubResource("BoxMesh_vsl7l")
+
+[node name="wall1" type="StaticBody3D" parent="World/NavigationRegion3D/CSGCombiner3D"]
+transform = Transform3D(-8.74228e-09, -1, 0, 0.2, -4.37114e-08, 0, 0, 0, 4, -19.8917, 0.895556, -0.0416913)
+physics_material_override = SubResource("PhysicsMaterial_0itx7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/NavigationRegion3D/CSGCombiner3D/wall1"]
+shape = SubResource("BoxShape3D_sn4n4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/NavigationRegion3D/CSGCombiner3D/wall1"]
+transform = Transform3D(4.4532, 0, 0, 3.55271e-15, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_vsl7l")
+
+[node name="wall2" type="StaticBody3D" parent="World/NavigationRegion3D/CSGCombiner3D"]
+transform = Transform3D(-8.74228e-09, -1, 0, 0.2, -4.37114e-08, 0, 0, 0, 4, 19.9064, 0.895556, -0.0416913)
+physics_material_override = SubResource("PhysicsMaterial_0itx7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/NavigationRegion3D/CSGCombiner3D/wall2"]
+shape = SubResource("BoxShape3D_sn4n4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/NavigationRegion3D/CSGCombiner3D/wall2"]
+transform = Transform3D(4.4532, 0, 0, 3.55271e-15, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_vsl7l")
+
+[node name="wall3" type="StaticBody3D" parent="World/NavigationRegion3D/CSGCombiner3D"]
+transform = Transform3D(3.82137e-16, 4.37114e-08, 4, 0.2, -4.37114e-08, 0, 8.74228e-09, 1, -1.74846e-07, -0.0111203, 0.895556, 19.9039)
+physics_material_override = SubResource("PhysicsMaterial_0itx7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/NavigationRegion3D/CSGCombiner3D/wall3"]
+shape = SubResource("BoxShape3D_sn4n4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/NavigationRegion3D/CSGCombiner3D/wall3"]
+transform = Transform3D(4.4532, 0, 6.77626e-21, 3.55271e-15, 1, 2.84217e-14, 0, -8.88178e-16, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_vsl7l")
+
+[node name="wall4" type="StaticBody3D" parent="World/NavigationRegion3D/CSGCombiner3D"]
+transform = Transform3D(3.82137e-16, 4.37114e-08, 4, 0.2, -4.37114e-08, 0, 8.74228e-09, 1, -1.74846e-07, -0.0111203, 0.895556, -19.9504)
+physics_material_override = SubResource("PhysicsMaterial_0itx7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/NavigationRegion3D/CSGCombiner3D/wall4"]
+shape = SubResource("BoxShape3D_sn4n4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/NavigationRegion3D/CSGCombiner3D/wall4"]
+transform = Transform3D(4.4532, 0, 6.77626e-21, 3.55271e-15, 1, 2.84217e-14, 0, -8.88178e-16, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_vsl7l")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="World/NavigationRegion3D/CSGCombiner3D"]
 transform = Transform3D(1, 0, 0, 0, 0.0186914, -0.999825, 0, 0.999825, 0.0186914, 1.82796, 2.0496, 2.33268)
 material_override = SubResource("StandardMaterial3D_137ot")
 size = Vector3(0.0828857, 2.6669, 2.03699)
 
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="World/NavigationRegion3D/CSGCombiner3D"]
 transform = Transform3D(1, 0, 0, 0, 0.96593, -0.258802, 0, 0.258802, 0.96593, 1.82796, 0.556887, 2.33268)
 material_override = SubResource("StandardMaterial3D_iw1lc")
 radius = 0.0361199
 height = 1.34222
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="World"]
+environment = SubResource("Environment_ti6gk")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World"]
+transform = Transform3D(0.537204, 0.414346, 0.734663, -0.813121, 0.0229292, 0.581643, 0.224156, -0.90983, 0.349231, 10.0924, 13.5387, 0)
+
+[node name="Enemy" parent="." instance=ExtResource("5_0btn4")]
+transform = Transform3D(0.955598, 0, 0.294674, 0, 1, 0, -0.294674, 0, 0.955598, -13.1923, 1.14954, -10.2763)
+max_contacts_reported = 4
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("2_ynylp")]
+transform = Transform3D(0.0760402, 0, -0.997105, 0, 1, 0, 0.997105, 0, 0.0760402, -2.01587, 0.360213, 3.0575)

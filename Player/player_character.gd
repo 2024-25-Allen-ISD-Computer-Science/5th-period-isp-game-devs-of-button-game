@@ -17,6 +17,8 @@ extends CharacterBody3D
 @export var ground_accel := 14.0
 @export var ground_decel := 10.0
 @export var ground_friction := 6.0
+
+#health stuff
 @export var Health := 100.0
 @export var MaxHealth := 100.0
 @export var Dead := false
@@ -146,7 +148,7 @@ func _handle_crouch(delta) -> void:
 		%Head.position.y -= result.get_travel().y
 		%Head.position.y = clampf(%Head.position.y, -CrouchTranslate, 0)
 	
-	%Head.position.y = move_toward(%Head.position.y, -CrouchTranslate if is_crouched else 0, 7.0 * delta)
+	%Head.position.y = move_toward(%Head.position.y, -CrouchTranslate if is_crouched else 0.0, 7.0 * delta)
 	%CollisionShape3D.shape.size.y = _OriginalCollsionHeight - CrouchTranslate if is_crouched else _OriginalCollsionHeight
 	%CollisionShape3D.position.y = %CollisionShape3D.shape.size.y/2
 
@@ -280,5 +282,5 @@ func _physics_process(delta):
 		HealthGuiOH.position.x = MiddleMan1*perc
 		HealthGuiOH.size.x = HealthGuiOH.position.x+(HealthGUIOH_OGSize.x-HealthGui.position.x)
 
-func _on_dmg_area_body_exited(body: Node3D) -> void:
+func _on_dmg_area_body_exited(_body: Node3D) -> void:
 	DmgAmt=0.0

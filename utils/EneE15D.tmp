@@ -1,0 +1,54 @@
+[gd_scene load_steps=10 format=3 uid="uid://d13dpr7ndd5fy"]
+
+[ext_resource type="Texture2D" uid="uid://dqvi01a12xgm7" path="res://Assets/face.png" id="1_8aart"]
+[ext_resource type="Script" path="res://utils/enemy.gd" id="1_n5npl"]
+[ext_resource type="Texture2D" uid="uid://t14iriknwsd2" path="res://Assets/Untitled.png" id="1_xsewl"]
+[ext_resource type="ArrayMesh" uid="uid://brc1ejso6ffig" path="res://Assets/sphere.obj" id="3_wg2y4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_30yww"]
+transparency = 3
+alpha_hash_scale = 0.81
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("1_8aart")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_di2yu"]
+radius = 0.47
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w20gx"]
+albedo_texture = ExtResource("1_xsewl")
+metallic = 0.7
+
+[sub_resource type="SphereMesh" id="SphereMesh_qrl4p"]
+material = SubResource("StandardMaterial3D_w20gx")
+radius = 0.45
+height = 0.9
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mjwls"]
+radius = 16.0
+
+[node name="Enemy" type="RigidBody3D" groups=["enemies"]]
+transform = Transform3D(0.955598, 0, 0.294674, 0, 1, 0, -0.294674, 0, 0.955598, 0, 0, 0)
+mass = 50.0
+contact_monitor = true
+script = ExtResource("1_n5npl")
+
+[node name="face" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_30yww")
+mesh = ExtResource("3_wg2y4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_di2yu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+mesh = SubResource("SphereMesh_qrl4p")
+
+[node name="Sight" type="Area3D" parent="."]
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Sight"]
+shape = SubResource("SphereShape3D_mjwls")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[connection signal="body_entered" from="Sight" to="." method="_on_sight_body_entered"]
+[connection signal="body_exited" from="Sight" to="." method="_on_sight_body_exited"]
